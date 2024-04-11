@@ -1,5 +1,1 @@
-export type CurrencyData = { date: string } & CurrencyOption;
-
-export interface CurrencyOption {
-  [key: string]: number;
-}
+export type CurrencyData = Record<string, number>;

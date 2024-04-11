@@ -12,7 +12,7 @@ export function useCurrencyData(currency: string) {
     )
       .then((res) => res.json())
       .then((data) => {
-        setData(data);
+        setData(data[currency]);
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -20,7 +20,7 @@ export function useCurrencyData(currency: string) {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [setIsLoading]);
+  }, [currency]);
 
-  return { isLoading, data, currency };
+  return { isLoading, data };
 }

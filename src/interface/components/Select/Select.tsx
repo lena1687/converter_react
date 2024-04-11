@@ -8,21 +8,17 @@ export interface SelectOption {
 interface Props {
   name: string;
   label?: string;
-  defaultInputValue?: string | number;
   defaultSelectValue?: string;
   options: SelectOption[];
   onOptionSelect: (value: string | number) => void;
-  onInputChange: (value: string | number) => void;
 }
 
 export const Select: React.FC<Props> = ({
   name,
   label,
-  defaultInputValue,
   defaultSelectValue,
   options,
   onOptionSelect,
-  onInputChange,
 }: Props) => {
   const [selectedOption, setSelectedOption] = useState<SelectOption>();
 
@@ -33,7 +29,7 @@ export const Select: React.FC<Props> = ({
       })!;
       setSelectedOption(defaultItem);
     }
-  }, [defaultSelectValue]);
+  }, [defaultSelectValue, options]);
 
   const handleSelect = (value: string | number) => {
     setSelectedOption({ text: value.toString(), value });
@@ -43,11 +39,6 @@ export const Select: React.FC<Props> = ({
   return (
     <div>
       {label && <label htmlFor={name}>{label}</label>}
-      <input
-        type="number"
-        value={defaultInputValue}
-        onChange={(e) => onInputChange(e.target.value)}
-      />
       <select
         value={selectedOption?.value}
         onChange={(e) => handleSelect(e.target.value)}
