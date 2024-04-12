@@ -21,7 +21,21 @@ export const CurrencyConverter: React.FC = () => {
     setFirstAmount(result);
   }, [data, secondCurrency]);
 
-  if (isLoading || !data) {
+  const changeFirstCurrency = useCallback((value: string) => {
+    setFirstCurrency(value);
+    if(value === secondCurrency) {
+      setSecondCurrency(firstCurrency);
+    }
+  }, [firstCurrency, secondCurrency]);
+
+  const changeSecondCurrency = useCallback((value: string) => {
+    setSecondCurrency(value);
+    if(value === firstCurrency) {
+      setFirstCurrency(secondCurrency);
+    }
+  }, [firstCurrency, secondCurrency]);
+
+  if (!data) {
     return (
       <div>
         <span>Data is loading</span>
@@ -30,7 +44,7 @@ export const CurrencyConverter: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className={isLoading ? 'loading' : ''}>
       <div className="currency-converter">
         <h1>Currency Converter</h1>
         {data && (
@@ -47,7 +61,7 @@ export const CurrencyConverter: React.FC = () => {
                   name="first_currency"
                   options={memorizedOptions}
                   defaultSelectValue={firstCurrency}
-                  onOptionSelect={(value) => setFirstCurrency(value as string)}
+                  onOptionSelect={(value) => changeFirstCurrency(value as string)}
               />
             </div>
             <div className="currency-block">
@@ -61,7 +75,7 @@ export const CurrencyConverter: React.FC = () => {
                   name="second_currency"
                   options={memorizedOptions}
                   defaultSelectValue={secondCurrency}
-                  onOptionSelect={(value) => setSecondCurrency(value as string)}
+                  onOptionSelect={(value) => changeSecondCurrency(value as string)}
               />
             </div>
           </div>
